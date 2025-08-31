@@ -28,4 +28,4 @@ jobs:
         run: npm run review:pr
         env:
           GITHUB_EVENT_PATH: ${{ github.event_path }}
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
