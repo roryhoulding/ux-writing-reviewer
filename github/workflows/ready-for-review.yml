@@ -1,0 +1,11 @@
+jobs:
+  pr-ready:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Node.js script with event payload
+        run: npx run review:pr
+        env:
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
