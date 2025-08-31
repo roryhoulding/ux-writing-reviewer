@@ -50,8 +50,6 @@ async function main() {
   } catch (error: any) {
     console.error('Error accessing pull request:', error);
   }
-  
-  console.log('Event Data:', eventData);
 } 
 
 main().catch(console.error);
