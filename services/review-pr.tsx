@@ -19,15 +19,6 @@ async function main() {
     auth: token,
   });
   
-  // Test the token permissions first
-  try {
-    const { data: user } = await octokit.rest.users.getAuthenticated();
-    console.log('Authenticated as:', user.login);
-  } catch (error: any) {
-    console.error('Failed to authenticate with GitHub:', error);
-    return;
-  }
-  
   const eventData = JSON.parse(fs.readFileSync(path, 'utf8'));
   const { pull_request, repository } = eventData;
   const { number } = pull_request;
