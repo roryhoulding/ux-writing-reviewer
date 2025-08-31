@@ -1,5 +1,6 @@
-const fs = require('fs');
-const { Octokit } = require('octokit');
+import fs from 'fs';
+import { Octokit } from 'octokit';
+
 const path = process.env.GITHUB_EVENT_PATH;
 
 async function main() {
