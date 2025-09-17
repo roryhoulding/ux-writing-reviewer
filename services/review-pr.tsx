@@ -22,7 +22,11 @@ You should also check for grammar and spelling mistakes.
 - Focus on new, user facing text added in the PR code diff (lines starting with '+'). 
 - Code lines are prefixed with symbols ('+', '-', ' '). The '+' symbol indicates new code added in the PR, the '-' symbol indicates code removed in the PR, and the ' ' symbol indicates unchanged code. \
  The review should address new code added in the PR code diff (lines starting with '+').
-- When quoting variables, names or file paths from the code, use backticks (\`) instead of single quote (').`
+- When quoting variables, names or file paths from the code, use backticks (\`) instead of single quote (').
+
+## Output
+- You should provide an array of comments, one comment per suggested change.
+`
 
 
 const DiffResponseSchema = z.string();
