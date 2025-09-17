@@ -37,7 +37,9 @@ const CommentSchema = z.object({
   body: z.string()
 });
 
-const GenerateCommentsResponseSchema = z.array(CommentSchema);
+const GenerateCommentsResponseSchema = z.object({
+  comments: z.array(CommentSchema)
+});
 
 type Diff = z.infer<typeof DiffResponseSchema>;
 type Comment = z.infer<typeof CommentSchema>;
