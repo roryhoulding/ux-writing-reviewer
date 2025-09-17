@@ -88,8 +88,8 @@ async function main() {
 
   console.log(addLineNumbersToDiff(diff));
 
-  const result = await generateComments(diff);
-  const comments = result?.comments || [];
+  const response = await generateComments(diff);
+  const comments = response?.comments || [];
 
   if (comments.length === 0) {
     console.log('No comments to post');
@@ -148,6 +148,7 @@ async function generateComments(diff: Diff) {
     },
   });
 
+  console.log(response.output);
   return response.output_parsed;
 }
 
