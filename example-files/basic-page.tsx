@@ -6,6 +6,7 @@ function HomePage() {
     <div>
       <h1>Welcome to My React Appp!</h1>
       <p>This is example of simple React page.</p>
+      <p>You simply can not build something better than this.</p>
       <button onClick={() => alert('Hello from React!')}>Clike Me</button>
     </div>
   );
