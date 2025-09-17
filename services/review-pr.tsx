@@ -137,6 +137,12 @@ async function generateComments(diff: Diff) {
         content: addLineNumbersToDiff(diff),
       },
     ],
+    tools: [
+      {
+          type: "file_search",
+          vector_store_ids: ["file-45dJ6dqExKwxqfuFrPq9gY"],
+      },
+  ],
     text: {
       format: zodTextFormat(GenerateCommentsResponseSchema, "comments"),
     },
