@@ -21,7 +21,7 @@ You should also check for grammar and spelling mistakes.
 
 ## Details
 - Focus on new, user facing text added in the PR code diff (lines starting with '+'). 
-- Code lines are prefixed with symbols ('+', '-', ' '). The '+' symbol indicates new code added in the PR, the '-' symbol indicates code removed in the PR, and the ' ' symbol indicates unchanged code. \
+- Code lines are prefixed with symbols with the line number as LINEX e.g. LINE5 followed by ('+', '-', ' '). The '+' symbol indicates new code added in the PR, the '-' symbol indicates code removed in the PR, and the ' ' symbol indicates unchanged code. \
  The review should address new code added in the PR code diff (lines starting with '+').
 - When quoting variables, names or file paths from the code, use backticks (\`) instead of single quote (').
 
@@ -169,9 +169,9 @@ function addLineNumbersToDiff(diff: Diff) {
 
       chunk.changes.forEach(change => {
         if (change.type === "add") {
-          output += `${change.ln} ${change.content}\n`;
+          output += `LINE${change.ln} ${change.content}\n`;
         } else if (change.type === "normal") {
-          output += `${change.ln2} ${change.content}\n`;
+          output += `LINE${change.ln2} ${change.content}\n`;
         }
       });
 
@@ -180,9 +180,9 @@ function addLineNumbersToDiff(diff: Diff) {
         output += `__old hunk__\n`;
         chunk.changes.forEach(change => {
           if (change.type === "del") {
-            output += `${change.ln} ${change.content}\n`;
+            output += `LINE${change.ln} ${change.content}\n`;
           } else if (change.type === "normal") {
-            output += `${change.ln2} ${change.content}\n`;
+            output += `LINE${change.ln2} ${change.content}\n`;
           }
         });
       }
