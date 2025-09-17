@@ -136,7 +136,7 @@ async function generateComments(diff: Diff) {
       },
     ],
     text: {
-      format: zodTextFormat(CommentSchema, "comments"),
+      format: zodTextFormat(GenerateCommentsResponseSchema, "comments"),
     },
   });
 
