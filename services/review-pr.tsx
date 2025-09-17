@@ -2,6 +2,7 @@ import fs from 'fs';
 import { Octokit } from 'octokit';
 
 const path = process.env.GITHUB_EVENT_PATH;
+const token = process.env.GITHUB_TOKEN;
 
 async function main() {
   if (!path) {
@@ -9,7 +10,6 @@ async function main() {
     return;
   }
   
-  const token = process.env.GITHUB_TOKEN;
   if (!token) {
     console.error('GITHUB_TOKEN is not set.');
     return;
@@ -54,7 +54,12 @@ async function main() {
       pull_number: number,
     });
 
+<<<<<<< Updated upstream
     console.log('Reviews:', reviews.data);
+=======
+    const diff = response.data;
+    
+>>>>>>> Stashed changes
   } catch (error: any) {
     console.error('Error accessing pull request or reviews:', error);
     
