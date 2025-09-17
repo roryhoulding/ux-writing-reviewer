@@ -83,20 +83,15 @@ async function main() {
     throw new Error('Error getting diff', error);
   }
 
-  const comments = await generateComments(diff);
-  console.log(comments);
+  const result = await generateComments(diff);
+  const comments = result?.comments || [];
 
-  // const comments: Comment[] = [
-  //     {
-  //       path: "README.md",  
-  //       line: 2,              
-  //       body: "Consider renaming this variable for clarity",
-  //     }
-  // ]
+  if (comments.length === 0) {
+    console.log('No comments to post');
+    return;
+  }
 
-  // await postComments(octokit, owner, repo, pull_request.number, comments);
-  
-  console.log(diff);
+  await postComments(octokit, owner, repo, pull_request.number, comments);
 }
 
 async function getDiff(octokit: Octokit, owner: string, repo: string, pull_number: number): Promise<Diff> {
