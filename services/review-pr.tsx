@@ -26,6 +26,7 @@ You should also check for grammar and spelling mistakes.
 
 ## Output
 - You should provide an array of comments, one comment per suggested change.
+- If your comment is to do with new code, which it should be, then you should set the "side" property to "RIGHT".
 `
 
 
@@ -34,7 +35,8 @@ const DiffResponseSchema = z.string();
 const CommentSchema = z.object({
   path: z.string(),
   line: z.number(),
-  body: z.string()
+  body: z.string(),
+  side: z.enum(["LEFT", "RIGHT"])
 });
 
 const GenerateCommentsResponseSchema = z.object({
