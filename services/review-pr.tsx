@@ -119,7 +119,7 @@ async function generateComments(diff: Diff) {
   });
 
   const response = await openai.responses.parse({
-    model: "gpt-4.1-mini",
+    model: "gpt-5-mini",
     input: [
       {
         role: "system",
