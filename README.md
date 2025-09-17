@@ -1,2 +1,2 @@
-This is just a file to test comitting.
-I just added this line.
+This is just a file to test. I changed this line.
+Another line.
