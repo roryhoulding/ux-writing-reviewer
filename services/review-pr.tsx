@@ -26,6 +26,8 @@ You should also check for grammar and spelling mistakes.
 
 ## Output
 - You should provide an array of comments, one comment per suggested change.
+- If your comment is to do with new code, which it should be, then you should set the "side" property to "RIGHT".
+- Github defines the position as "The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. The position value equals the number of lines down from the first "@@" hunk header in the file you want to add a comment. The line just below the "@@" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file."
 `
 
 
@@ -33,8 +35,9 @@ const DiffResponseSchema = z.string();
 
 const CommentSchema = z.object({
   path: z.string(),
-  line: z.number(),
-  body: z.string()
+  position: z.number(),
+  body: z.string(),
+  side: z.enum(["LEFT", "RIGHT"])
 });
 
 const GenerateCommentsResponseSchema = z.object({
