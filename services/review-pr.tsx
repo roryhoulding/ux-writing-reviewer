@@ -45,17 +45,8 @@ async function main() {
       },
     });
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-    console.log('Reviews:', reviews.data);
-=======
     const diff = response.data;
-    
->>>>>>> Stashed changes
-=======
-    console.log(response.data);
-    
->>>>>>> 28b27fe0c94dd72199ea03645e35c69a9b6ea078
+    console.log(diff);
   } catch (error: any) {
     console.error('Error accessing pull request:', error);
   }
