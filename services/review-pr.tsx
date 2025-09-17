@@ -3,33 +3,40 @@ import { Octokit } from 'octokit';
 import { z } from 'zod';
 import 'dotenv/config';
 import { OpenAI } from 'openai';
+import { zodTextFormat } from "openai/helpers/zod";
 
 
 const path = process.env.GITHUB_EVENT_PATH;
 const token = process.env.GITHUB_TOKEN;
 const openaiApiKey = process.env.OPENAI_API_KEY;
 
+const systemPrompt = `## About you
+You are a UX writing expert that specializes in reviewing Git Pull Requests (PR).
+
+## Your task
+Your task is to provide constructive and concise feedback for user facing text (text that the end user will see when using the product). 
+You should use your expertise as a UX writer to provide provide feedback on the user experience of the text.
+You should also check for grammar and spelling mistakes. 
+
+## Details
+- Focus on new, user facing text added in the PR code diff (lines starting with '+'). 
+- Code lines are prefixed with symbols ('+', '-', ' '). The '+' symbol indicates new code added in the PR, the '-' symbol indicates code removed in the PR, and the ' ' symbol indicates unchanged code. \
+ The review should address new code added in the PR code diff (lines starting with '+').
+- When quoting variables, names or file paths from the code, use backticks (\`) instead of single quote (').`
+
 
 const DiffResponseSchema = z.string();
 
-// export const GenerateCommentsResponseSchema = z.array(z.object({
-//   text: z.string(),
-//   start_line: z.number(),
-//   end_line: z.number(),
-//   start_column: z.number(),
-//   end_column: z.number(),
-//   path: z.string(),
-//   type: z.string(),
-//   severity: z.string(),
-// }));
+const CommentSchema = z.object({
+  path: z.string(),
+  line: z.number(),
+  body: z.string()
+});
+
+const GenerateCommentsResponseSchema = z.array(CommentSchema);
 
 type Diff = z.infer<typeof DiffResponseSchema>;
-
-interface Comment {
-  path: string;
-  line: number;
-  body: string;
-}
+type Comment = z.infer<typeof CommentSchema>;
 
 async function main() {
   if (!path) {
@@ -70,15 +77,18 @@ async function main() {
     throw new Error('Error getting diff', error);
   }
 
-  const comments: Comment[] = [
-      {
-        path: "README.md",  
-        line: 2,              
-        body: "Consider renaming this variable for clarity",
-      }
-  ]
+  const comments = await generateComments(diff);
+  console.log(comments);
 
-  await postComments(octokit, owner, repo, pull_request.number, comments);
+  // const comments: Comment[] = [
+  //     {
+  //       path: "README.md",  
+  //       line: 2,              
+  //       body: "Consider renaming this variable for clarity",
+  //     }
+  // ]
+
+  // await postComments(octokit, owner, repo, pull_request.number, comments);
   
   console.log(diff);
 }
@@ -100,11 +110,34 @@ async function getDiff(octokit: Octokit, owner: string, repo: string, pull_numbe
   }
 }
 
-// async function generateComments(diff: Diff) {
-//   const openai = new OpenAI({
-//     apiKey: openaiApiKey,
-//   });
-// }
+async function generateComments(diff: Diff) {
+  const openai = new OpenAI({
+    apiKey: openaiApiKey,
+  });
+
+  const response = await openai.responses.parse({
+    model: "gpt-4.1-mini",
+    input: [
+      {
+        role: "system",
+        content: systemPrompt,
+      },
+      {
+        role: "user",
+        content: "Here is the diff of the PR:",
+      },
+      {
+        role: "user",
+        content: diff,
+      },
+    ],
+    text: {
+      format: zodTextFormat(CommentSchema, "comments"),
+    },
+  });
+
+  return response.output_parsed;
+}
 
 async function postComments(octokit: Octokit, owner: string, repo: string, pull_number: number, comments: Comment[]) {
   await octokit.rest.pulls.createReview({
