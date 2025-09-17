@@ -168,22 +168,13 @@ function addLineNumbersToDiff(diff: Diff) {
       output += `__new hunk__\n`;
 
       chunk.changes.forEach(change => {
-        if (change.type === "normal" || change.type === "add") {
-          // cast to any because parse-diff's types don't expose ln2
-          const ln2 = (change as any).ln2 ?? "";
-          output += `${ln2} ${change.content}\n`;
+        if (change.type === "add") {
+          const ln = change.ln ?? "";
+          output += `LINE${ln} ${change.content}\n`;
+        } else {
+          output += `${change.content}\n`;
         }
       });
-
-      const hasDeletions = chunk.changes.some(c => c.type === "del");
-      if (hasDeletions) {
-        output += `__old hunk__\n`;
-        chunk.changes.forEach(change => {
-          if (change.type === "normal" || change.type === "del") {
-            output += `${change.content}\n`;
-          }
-        });
-      }
     });
   });
 
