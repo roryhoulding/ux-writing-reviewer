@@ -169,12 +169,23 @@ function addLineNumbersToDiff(diff: Diff) {
 
       chunk.changes.forEach(change => {
         if (change.type === "add") {
-          const ln = change.ln ?? "";
-          output += `LINE${ln} ${change.content}\n`;
-        } else {
-          output += `${change.content}\n`;
+          output += `${change.ln} ${change.content}\n`;
+        } else if (change.type === "normal") {
+          output += `${change.ln2} ${change.content}\n`;
         }
       });
+
+      const hasDeletions = chunk.changes.some(c => c.type === "del");
+      if (hasDeletions) {
+        output += `__old hunk__\n`;
+        chunk.changes.forEach(change => {
+          if (change.type === "del") {
+            output += `${change.ln} ${change.content}\n`;
+          } else if (change.type === "normal") {
+            output += `${change.ln2} ${change.content}\n`;
+          }
+        });
+      }
     });
   });
 
