@@ -72,7 +72,7 @@ async function main() {
 
   const comments: Comment[] = [
       {
-        path: "src/README.md",  
+        path: "README.md",  
         line: 2,              
         body: "Consider renaming this variable for clarity",
       }
