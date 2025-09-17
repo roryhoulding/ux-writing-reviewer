@@ -34,7 +34,7 @@ const DiffResponseSchema = z.string();
 
 const CommentSchema = z.object({
   path: z.string(),
-  line: z.number(),
+  position: z.number(),
   body: z.string(),
   side: z.enum(["LEFT", "RIGHT"])
 });
