@@ -4,6 +4,7 @@ import { z } from 'zod';
 import 'dotenv/config';
 import { OpenAI } from 'openai';
 import { zodTextFormat } from "openai/helpers/zod";
+import parseDiff from "parse-diff";
 
 
 const path = process.env.GITHUB_EVENT_PATH;
@@ -85,6 +86,8 @@ async function main() {
     throw new Error('Error getting diff', error);
   }
 
+  console.log(addLineNumbersToDiff(diff));
+
   const result = await generateComments(diff);
   const comments = result?.comments || [];
 
@@ -131,7 +134,7 @@ async function generateComments(diff: Diff) {
       },
       {
         role: "user",
-        content: diff,
+        content: addLineNumbersToDiff(diff),
       },
     ],
     text: {
@@ -151,6 +154,40 @@ async function postComments(octokit: Octokit, owner: string, repo: string, pull_
     body: "Automated review with multiple comments 🚀",
     comments,
   });
+}
+
+function addLineNumbersToDiff(diff: Diff) {
+  const files = parseDiff(diff);
+  let output = "";
+
+  files.forEach(file => {
+    output += `## File: '${file.to}'\n`;
+
+    file.chunks.forEach(chunk => {
+      output += `\n@@ ${chunk.content} @@\n`;
+      output += `__new hunk__\n`;
+
+      chunk.changes.forEach(change => {
+        if (change.type === "normal" || change.type === "add") {
+          // cast to any because parse-diff's types don't expose ln2
+          const ln2 = (change as any).ln2 ?? "";
+          output += `${ln2} ${change.content}\n`;
+        }
+      });
+
+      const hasDeletions = chunk.changes.some(c => c.type === "del");
+      if (hasDeletions) {
+        output += `__old hunk__\n`;
+        chunk.changes.forEach(change => {
+          if (change.type === "normal" || change.type === "del") {
+            output += `${change.content}\n`;
+          }
+        });
+      }
+    });
+  });
+
+  return output.trim();
 }
 
 
