@@ -140,7 +140,7 @@ async function generateComments(diff: Diff) {
     tools: [
       {
           type: "file_search",
-          vector_store_ids: ["file-45dJ6dqExKwxqfuFrPq9gY"],
+          vector_store_ids: ["vs_68cb0ea202f88191b8ac3b79541fb792"],
       },
   ],
     text: {
