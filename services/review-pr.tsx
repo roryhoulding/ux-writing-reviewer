@@ -1,10 +1,13 @@
 import fs from 'fs';
 import { Octokit } from 'octokit';
+import 'dotenv/config';
 
 const path = process.env.GITHUB_EVENT_PATH;
 const token = process.env.GITHUB_TOKEN;
+const openaiApiKey = process.env.OPENAI_API_KEY;
 
 async function main() {
+  console.log(openaiApiKey);
   if (!path) {
     console.error('GITHUB_EVENT_PATH is not set.');
     return;
