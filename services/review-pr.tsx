@@ -32,6 +32,7 @@ You will be provided:
 
 ## Output
 - You should provide an array of comments, one comment per suggested change.
+- When your change is based on information from the file_search tool, you should quote the information from the file_search tool in your comment.
 - If your comment is to do with new code, which it should be, then you should set the "side" property to "RIGHT".
 `
 
