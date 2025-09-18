@@ -34,6 +34,13 @@ You will be provided:
 - You should provide an array of comments, one comment per suggested change.
 - When your change is based on information from the file_search tool, quote the information in your comment. Use the '>' character to format the quote properly.
 - If your comment is to do with new code, which it should be, then you should set the "side" property to "RIGHT".
+- When making a suggestion, format it using the \`\`\`suggestion block. The suggestion should replace the whole line or lines of code.
+
+Example suggestion to fix <h1>Welcome to My React Appp!</h1>:
+
+\`\`\`suggestion
+      <h1>Welcome to my React app!</h1>
+\`\`\`
 `
 
 
