@@ -154,7 +154,8 @@ async function generateComments(diff: Diff) {
     },
   });
 
-  console.log(response);
+  console.log(response.output[1].queries);
+  console.log(response.output[1].results);
   console.log(response.output_parsed);
   return response.output_parsed;
 }
