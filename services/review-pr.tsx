@@ -142,12 +142,13 @@ async function generateComments(diff: Diff) {
           type: "file_search",
           vector_store_ids: ["vs_68cb0ea202f88191b8ac3b79541fb792"],
       },
-  ],
+    ],
     text: {
       format: zodTextFormat(GenerateCommentsResponseSchema, "comments"),
     },
   });
 
+  console.log(response);
   console.log(response.output_parsed);
   return response.output_parsed;
 }
