@@ -4,9 +4,10 @@ import React from 'react';
 function HomePage() {
   return (
     <div>
-      <h1>Welcome to My React App!</h1>
-      <p>This is an example of a simple React page.</p>
-      <button onClick={() => alert('Hello from React!')}>Clik Me</button>
+      <h1>Welcome to My React Appp!</h1>
+      <p>This is example of simple React page.</p>
+      <p>You simply can not build something better than this.</p>
+      <button onClick={() => alert('Hello from React!')}>Clike Me</button>
     </div>
   );
 }
