@@ -148,6 +148,7 @@ async function generateComments(diff: Diff) {
           vector_store_ids: ["vs_68cb0ea202f88191b8ac3b79541fb792"],
       },
     ],
+    include: ["file_search_call.results"],
     text: {
       format: zodTextFormat(GenerateCommentsResponseSchema, "comments"),
     },
