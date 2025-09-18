@@ -19,6 +19,11 @@ Your task is to provide constructive and concise feedback for user facing text (
 You should use your expertise as a UX writer to provide provide feedback on the user experience of the text.
 You should also check for grammar and spelling mistakes. 
 
+## Input
+You will be provided:
+- The diff of the PR
+- Access to the file_search tool that has access to a vector store of files that contain rules and guidelines for UX writing. It is imperitive that you use this tool to find relevant rules and guidelines to provide feedback on the PR.
+
 ## Details
 - Focus on new, user facing text added in the PR code diff (lines starting with '+'). 
 - Code lines are prefixed with symbols with the line number as LINEX e.g. LINE5 followed by ('+', '-', ' '). The '+' symbol indicates new code added in the PR, the '-' symbol indicates code removed in the PR, and the ' ' symbol indicates unchanged code. \
@@ -143,6 +148,7 @@ async function generateComments(diff: Diff) {
           vector_store_ids: ["vs_68cb0ea202f88191b8ac3b79541fb792"],
       },
     ],
+    include: ["file_search_call.results"],
     text: {
       format: zodTextFormat(GenerateCommentsResponseSchema, "comments"),
     },
